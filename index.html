@@ -1,0 +1,321 @@
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title><Find a Conservation Group </title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+    .split-left {
+        left: 0;
+  height: 100%;
+  width: 30%;
+  position: relative;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+  border : 1px solid;
+}
+
+
+/* Control the right side */
+.split-right {
+    right: 0;
+  position: fixed;
+  z-index: 1;
+  top: 120;
+  overflow-x: hidden;
+  padding-top: 0px;
+}
+
+.row {
+    margin-left: 15px;
+}
+
+.alert-info {
+    background-color: #e6f5ff;
+    border-color: #c2f1ff;
+    color: #005590;
+}
+
+.list-group {
+    padding-left: 0px;
+    margin-bottom: 20px;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+}
+
+.collaspe {
+    position: relative;
+    height: 0px;
+    overflow: hidden;
+}
+
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 
+}
+
+.panel-heading{
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius:  3px;
+}
+
+    </style>
+        
+
+</head>
+<body>
+
+        <script type="text/javascript">
+         var gokartOptions = {
+            app:"conservgroup", //the application name
+            containerId:"map", //the id of the html element which contains the map widget
+            name:"gokart" //the global variable name of this gokart instance, default is gokart
+         }
+         </script>
+
+    <div class="container-fluid">
+        <div class="page-header">
+            <h1>Find a Conservation group</h1>
+        </div>
+        <p>Volunteers who care passionately about the environment are vital in managing our natural areas.
+        Community conservation groups protect and manage our bushlands through raising awareness of biodiversity values and of natural areas in their local community.
+        They acquire funding to undertake on-ground works and manage serious threats making a major contribution to protection and restoration of our bushlands.</p>
+        
+        <div id="mapsearch" class="row-fluid">
+        
+                <div id="sidebar" class="split-left">
+                    <div class="panel-heading">
+                        <strong>Search</strong>
+                    </div>
+                    <div class="heading">
+                        <h2>Locations</h2>
+                    </div>
+                            <div id="filter_type">
+                                <div class='row' id='filters'>
+                                    <input id='all' type='radio' name='toggle' value='all' checked='checked'>
+                                    <label for='all'>All</label>
+                                    <input id='friends' type='radio' name='toggle' value='friends'>
+                                    <label for='friends'>Friends</label>
+                                    <input id='regional' type='radio' name='toggle' value='regional'>
+                                    <label for='regional'>Regional</label>
+                                  </div>
+                            </div>
+
+                            <div id="filter_address">
+                                <h2>Locate me</h2>
+                                <p> Address Section</p>
+                                <div>
+                                    <input type = 'loaction' class = '' id = '' placeholder="xyz street">
+                                    <p>within</p><div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          Distance
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                          <a class="dropdown-item" href="#">1 km</a>
+                                          <a class="dropdown-item" href="#">2 km</a>
+                                          <a class="dropdown-item" href="#">5 km</a>
+                                          <a class="dropdown-item" href="#">10 km</a>
+                                          <a class="dropdown-item" href="#">25 km</a>
+                                          <a class="dropdown-item" href="#">50 km</a>
+                                          <a class="dropdown-item" href="#">100 km</a>
+                                        </div>
+                                      </div>
+                                      <button type="button" class="btn btn-lg btn-primary" disabled>Search</button>
+                                        <button type="button" class="btn btn-secondary btn-lg" disabled>Reset</button>
+                                </div>
+                            </div>
+
+                            <div id="filter_list">
+                                
+                                <div class="alert-info" id = "result_box" style="display: block;">
+                                    <div id="result-count" ></div>
+                                </div>
+                            <ul class = "list-group" id="results_list" style="display:block;">
+                                <!-- <li class="list-group-item"> <br/>
+                                    
+                                    <div class = "collaspe" id = "demo" style = "height: 0px;">
+                                    Contact : <br/>
+                                    </div>
+                                </li>  -->
+                            </ul>
+                        </div>
+            
+                    </div>
+
+                    <div id="map" class="split-right" style="border-style:double;width:65%;height:600px" />
+
+                </div>
+
+            
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="http://localhost:8020/dist/static/js/bootstrap.js" ></script>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
+
+    <script>
+    
+    var alltypes = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:friends_regional_groups_may_2019&outputFormat=application%2Fjson';
+    
+    var friendType = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:friends_groups_may_2019&outputFormat=application%2Fjson';
+    
+    var regionalType = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:regional_groups_may_2019&outputFormat=application%2Fjson';
+    
+    var dataurl = '' ;
+    var result = [];
+
+        document.getElementById('filter_type').addEventListener('change', function(e) {
+            var type = e.target.value;
+            
+            
+
+            if(type === 'all') {
+                dataurl = alltypes;
+                temp(type)
+              
+                return gokart.map.setToplayer(0);
+
+            } else if(type === 'friends') {
+                dataurl = friendType;
+                temp(type)
+               
+                return gokart.map.setToplayer(1);
+            } else if(type === 'regional') {
+                dataurl = regionalType;
+                temp(type)
+                
+                return gokart.map.setToplayer(2);
+            } else {
+                return false;
+            }
+        });
+
+        var temp= function(type) {
+            $.ajax({
+        url: dataurl,
+        dataType: "json",
+        success: (function(data){
+         
+            
+            // for(var i =0; i < temp.responseJSON.features.length ; i ++){
+            //     resultOrg = '' + temp.responseJSON.features[i].properties.org;
+            //     resultSite= '' + temp.responseJSON.features[i].properties.site;
+            //     resultContact= '' + temp.responseJSON.features[i].properties.contact;
+            //     resultPhone= '' + temp.responseJSON.features[i].properties.p;
+
+            
+            var str = ' <ul class="list-group">'
+            for(var i =0; i < data.features.length ; i ++){
+                str += '<li class="list-group-item" style="display:block">'+ data.features[i].properties.org +'<br/> Site: ' + data.features[i].properties.site + 
+                '</li>';
+                
+           
+                resultSite= '' + data.features[i].properties.site;
+                resultContact= '' + data.features[i].properties.contact;
+                resultPhone= '' + data.features[i].properties.p;
+                
+                
+                                    
+                //                 //     <div class = "collaspe" id = "demo" style = "height: 0px;">
+                //                 //     Contact : <br/>
+                //                 //     </div>
+                //                 // </li>
+               
+              
+                //console.log(result);
+            
+                
+            }
+            $('#result-count').html('<p> '+ data.features.length+' results found </p>')
+            str += '</ul>';
+           // $(".result-count").append( "<p> "+ result.length +"   results found </p>");
+            console.log(resultSite)
+            console.log(alltypes)
+            
+            
+            // if(type === 'regional'){
+            //     while(temp.responseJSON.features.properties.grouptype === 2)
+
+
+            // }
+
+            $('#result-count').html('<p> '+result.length+' results found </p>')
+
+                // data.foreach(newlist);
+
+                // function newlist(item,index){
+
+                // var str= $('<li class="list-group-item">' +resultOrg+ '<br/> ' +resultSite + '</li>');
+                                    
+                //                 //     <div class = "collaspe" id = "demo" style = "height: 0px;">
+                //                 //     Contact : <br/>
+                //                 //     </div>
+                //                 // </li>
+
+                // $('#list-group').append(listItem);
+                // }
+           
+       
+                
+    
+            $('#results_list').html(str);
+            
+            // var ul = document.querySelector("ul");
+
+            // for (var j = 0; j < result.length; j++) {
+            // var resultlist = result[j];
+
+            // var listItem = document.createElement("li");
+            // listItem.textContent = resultlist;
+
+            // ul.appendChild(listItem);
+            
+            // }
+
+
+            return console.log(result);
+        }),
+        error: function (xhr) {
+            alert(xhr.statusText)
+        }
+        })
+        }
+        
+        $(".result-count").append( "<p> "+ result.length +" results found </p>");
+
+        //console.log(temp.responseJSON);
+
+        // $.when(temp).done(function(type){
+        //     var result = []
+        //     if(temp.responseJSON.features.properties === 2 )
+        //     for(var i =0; i < temp.responseJSON.totalFeatures ; i ++){
+        //         result += '' + temp.responseJSON.features.properties.org
+        //     }
+        //     return result
+        // })
+    
+    
+
+    </script>
+    
+</body>
+</html>
