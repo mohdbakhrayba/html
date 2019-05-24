@@ -52,11 +52,11 @@
     border: 1px solid #ddd;
 }
 
-.collaspe {
+/* .collaspe {
     position: relative;
     height: 0px;
     overflow: hidden;
-}
+} */
 
 .panel {
     margin-bottom: 20px;
@@ -174,34 +174,40 @@
 
     <script>
     
-    var alltypes = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:friends_regional_groups_may_2019&outputFormat=application%2Fjson';
+    var dataurl = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:friends_regional_groups_may_2019&outputFormat=application%2Fjson';
     
-    var friendType = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:friends_groups_may_2019&outputFormat=application%2Fjson';
+    // var friendType = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:friends_groups_may_2019&outputFormat=application%2Fjson';
     
-    var regionalType = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:regional_groups_may_2019&outputFormat=application%2Fjson';
+    // var regionalType = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:regional_groups_may_2019&outputFormat=application%2Fjson';
     
-    var dataurl = '' ;
-    var result = [];
 
+    var resultlength = '';
         document.getElementById('filter_type').addEventListener('change', function(e) {
             var type = e.target.value;
+            
+
             
             
 
             if(type === 'all') {
-                dataurl = alltypes;
-                temp(type)
-              
+                // dataurl = alltypes;
+                // temp(dataurl)
+                $('li.friends').show();
+                $('li.regional').show();
                 return gokart.map.setToplayer(0);
 
             } else if(type === 'friends') {
-                dataurl = friendType;
-                temp(type)
+                // dataurl = friendType;
+                // temp(dataurl)
+                $('li.friends').show();
+                $('li.regional').hide();
                
                 return gokart.map.setToplayer(1);
             } else if(type === 'regional') {
-                dataurl = regionalType;
-                temp(type)
+                // dataurl = regionalType;
+                // temp(dataurl)
+                $('li.friends').hide();
+                $('li.regional').show();
                 
                 return gokart.map.setToplayer(2);
             } else {
@@ -209,11 +215,12 @@
             }
         });
 
-        var temp= function(type) {
+
+        var getJSON = function(dataurl) {
             $.ajax({
         url: dataurl,
         dataType: "json",
-        success: (function(data){
+        success: (function(dataJSON){
          
             
             // for(var i =0; i < temp.responseJSON.features.length ; i ++){
@@ -222,11 +229,25 @@
             //     resultContact= '' + temp.responseJSON.features[i].properties.contact;
             //     resultPhone= '' + temp.responseJSON.features[i].properties.p;
 
-            
+            var data = dataJSON;
             var str = ' <ul class="list-group">'
             for(var i =0; i < data.features.length ; i ++){
-                str += '<li class="list-group-item" style="display:block">'+ data.features[i].properties.org +'<br/> Site: ' + data.features[i].properties.site + 
-                '</li>';
+                if (data.features[i].properties.grouptype == 1) {
+                    str += '<li class="list-group-item friends" style="display:block">'
+                } else {
+                    str += '<li class="list-group-item regional" style="display:block">'
+                }
+                str += data.features[i].properties.org +'<br/> Site: ' + data.features[i].properties.site;
+                str += '<button class="btn btn-info" type="button" data-target = "#demo'+i+'" data-toggle="collapse">expand</button>';
+                str += '</li>';
+                
+	//str += '<i class="icon-angle-down"></i></button>';
+
+
+	str += '<div class="collapse" id="demo'+i+'"> <br>';
+	str += '<strong>Contact:</strong> ' +data.features[i].properties.contact+' <br> ';
+	str += '</div>';
+	str += '</li>';
                 
            
                 resultSite= '' + data.features[i].properties.site;
@@ -245,40 +266,17 @@
             
                 
             }
+            resultlength = data.features.length;
             $('#result-count').html('<p> '+ data.features.length+' results found </p>')
             str += '</ul>';
-           // $(".result-count").append( "<p> "+ result.length +"   results found </p>");
-            console.log(resultSite)
-            console.log(alltypes)
-            
-            
-            // if(type === 'regional'){
-            //     while(temp.responseJSON.features.properties.grouptype === 2)
-
-
-            // }
-
-            $('#result-count').html('<p> '+result.length+' results found </p>')
-
-                // data.foreach(newlist);
-
-                // function newlist(item,index){
-
-                // var str= $('<li class="list-group-item">' +resultOrg+ '<br/> ' +resultSite + '</li>');
-                                    
-                //                 //     <div class = "collaspe" id = "demo" style = "height: 0px;">
-                //                 //     Contact : <br/>
-                //                 //     </div>
-                //                 // </li>
-
-                // $('#list-group').append(listItem);
-                // }
            
+            console.log(resultSite)
+            // console.log(alltypes)
        
                 
     
             $('#results_list').html(str);
-            
+            $('input#all').click();
             // var ul = document.querySelector("ul");
 
             // for (var j = 0; j < result.length; j++) {
@@ -291,8 +289,6 @@
             
             // }
 
-
-            return console.log(result);
         }),
         error: function (xhr) {
             alert(xhr.statusText)
@@ -300,7 +296,6 @@
         })
         }
         
-        $(".result-count").append( "<p> "+ result.length +" results found </p>");
 
         //console.log(temp.responseJSON);
 
@@ -313,7 +308,7 @@
         //     return result
         // })
     
-    
+        getJSON(dataurl);
 
     </script>
     
