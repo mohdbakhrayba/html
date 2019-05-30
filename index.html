@@ -6,9 +6,23 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" 
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
     <style>
-    .split-left {
-        left: 0;
+.page-header{
+    padding-bottom: 10px;
+    margin: 20px 0 30px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.mapsearch {
+    padding: 20px 0;
+}
+
+.split-left {
+    left: 0;
   height: 100%;
   width: 30%;
   position: relative;
@@ -22,17 +36,26 @@
 
 /* Control the right side */
 .split-right {
+    float: right;
+    width:65%;
+    height: 800px;
     right: 0;
-  position: fixed;
+  position: absolute;
   z-index: 1;
-  top: 120;
+  top: 120px;
   overflow-x: hidden;
   padding-top: 0px;
+  
 }
 
 .row {
     margin-left: 15px;
 }
+
+/* .alert{
+    overflow:auto;
+    pa
+} */
 
 .alert-info {
     background-color: #e6f5ff;
@@ -52,17 +75,40 @@
     border: 1px solid #ddd;
 }
 
+#results_list{
+    max-height: 300px;
+    overflow:auto;
+}
+
+.panel > .list-group, .panel-body > .list-group{
+    margin: 0 0 20px 0;
+}
+
+ul{
+    padding: 0;
+}
+
 /* .collaspe {
     position: relative;
     height: 0px;
     overflow: hidden;
-} */
+} */;
+border
+.panel-default{
+    border-color: #ddd;
+}
+
+.panel-default > .panel-heading {
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
 
 .panel {
     margin-bottom: 20px;
     background-color: #fff;
     border: 1px solid transparent;
-    border-radius: 
+    border-radius: 4px;
 }
 
 .panel-heading{
@@ -70,6 +116,10 @@
     border-bottom: 1px solid transparent;
     border-top-left-radius: 3px;
     border-top-right-radius:  3px;
+}
+
+.panel-body{
+    padding: 15px;
 }
 
     </style>
@@ -87,7 +137,7 @@
          </script>
 
     <div class="container-fluid">
-        <div class="page-header">
+        <div class="page-heading">
             <h1>Find a Conservation group</h1>
         </div>
         <p>Volunteers who care passionately about the environment are vital in managing our natural areas.
@@ -96,13 +146,17 @@
         
         <div id="mapsearch" class="row-fluid">
         
-                <div id="sidebar" class="split-left">
-                    <div class="panel-heading">
-                        <strong>Search</strong>
-                    </div>
-                    <div class="heading">
-                        <h2>Locations</h2>
-                    </div>
+                <!-- <div id="sidebar" class="split-left"> -->
+                        <div id="sidebar" class="span4 col-xs-6 col-sm-4 col-md-4 col-lg-4">
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            <strong>Search</strong>
+                        </div>
+
+                        <div class="panel-body">
+                            <strong>Filters:</strong>   <br/>
                             <div id="filter_type">
                                 <div class='row' id='filters'>
                                     <input id='all' type='radio' name='toggle' value='all' checked='checked'>
@@ -115,48 +169,49 @@
                             </div>
 
                             <div id="filter_address">
-                                <h2>Locate me</h2>
+                                <h4>Locate me</h4>
                                 <p> Address Section</p>
                                 <div>
-                                    <input type = 'loaction' class = '' id = '' placeholder="xyz street">
-                                    <p>within</p><div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          Distance
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="#">1 km</a>
-                                          <a class="dropdown-item" href="#">2 km</a>
-                                          <a class="dropdown-item" href="#">5 km</a>
-                                          <a class="dropdown-item" href="#">10 km</a>
-                                          <a class="dropdown-item" href="#">25 km</a>
-                                          <a class="dropdown-item" href="#">50 km</a>
-                                          <a class="dropdown-item" href="#">100 km</a>
-                                        </div>
+                                    <input type = 'location' class = '' id = '' placeholder="xyz street">
+                                    
+                                    <div class="form-group">
+                                        <label class="control-label">within</label>
+                                        <select class="form-control" id="search_radius">
+                                                <option >1 km</option>
+                                                <option >2 km</option>
+                                                <option >5 km</option>
+                                                <option >10 km</option>
+                                                <option >25 km</option>
+                                                <option >50 km</option>
+                                                <option >100 km</option>
+                                        </select>
                                       </div>
-                                      <button type="button" class="btn btn-lg btn-primary" disabled>Search</button>
-                                        <button type="button" class="btn btn-secondary btn-lg" disabled>Reset</button>
+                                      <p>
+                                      <button type="button" class="btn btn-primary" disabled>Search</button>
+                                        <button type="button" class="btn btn-secondary " disabled>Reset</button>
+                                    </p>
                                 </div>
                             </div>
 
-                            <div id="filter_list">
+                           
                                 
-                                <div class="alert-info" id = "result_box" style="display: block;">
+                                <div class="alert alert-info" id = "result_box" style="display: block;">
                                     <div id="result-count" ></div>
                                 </div>
-                            <ul class = "list-group" id="results_list" style="display:block;">
-                                <!-- <li class="list-group-item"> <br/>
-                                    
-                                    <div class = "collaspe" id = "demo" style = "height: 0px;">
-                                    Contact : <br/>
-                                    </div>
-                                </li>  -->
-                            </ul>
-                        </div>
+
+                                <ul class = "list-group" id="results_list" style="display:block;">
+                                
+                                </ul>
+                        
+
+                    </div>
             
                     </div>
 
-                    <div id="map" class="split-right" style="border-style:double;width:65%;height:600px" />
+                </div>
 
+                    <!-- <div id="map" class="split-right" style="border-style:double;width:65%;height:600px" /> -->
+                    <div id="map" class="split-right"  />
                 </div>
 
             
@@ -167,21 +222,23 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+    
     <script type="text/javascript" src="http://localhost:8020/dist/static/js/bootstrap.js" ></script>
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="crossorigin="anonymous"></script>
 
     <script>
-    
+
     var dataurl = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:friends_regional_groups_may_2019&outputFormat=application%2Fjson';
     
     // var friendType = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:friends_groups_may_2019&outputFormat=application%2Fjson';
     
     // var regionalType = 'https://kmi.dbca.wa.gov.au/geoserver/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:regional_groups_may_2019&outputFormat=application%2Fjson';
     
-
     var resultlength = '';
+
+        //Function to add a event when radio button is change.Default is ALL
+
         document.getElementById('filter_type').addEventListener('change', function(e) {
             var type = e.target.value;
             
@@ -194,13 +251,22 @@
                 // temp(dataurl)
                 $('li.friends').show();
                 $('li.regional').show();
+
+                //Line used to get the total no of elements visible in the generated List
+
+                resultlength = $("#results_list li:visible").length;
+                $('#result-count').html('<p> '+ resultlength+' results found </p>')
                 return gokart.map.setToplayer(0);
+
 
             } else if(type === 'friends') {
                 // dataurl = friendType;
                 // temp(dataurl)
                 $('li.friends').show();
                 $('li.regional').hide();
+
+                resultlength = $("#results_list li:visible").length;
+                $('#result-count').html('<p> '+ resultlength+' results found </p>')
                
                 return gokart.map.setToplayer(1);
             } else if(type === 'regional') {
@@ -209,85 +275,74 @@
                 $('li.friends').hide();
                 $('li.regional').show();
                 
+                resultlength = $("#results_list li:visible").length;
+                $('#result-count').html('<p> '+ resultlength+' results found </p>')
+
                 return gokart.map.setToplayer(2);
             } else {
                 return false;
             }
         });
 
+/* Ajax function to load data from the geoJSON and when successful,
+     load the list of data according to the radio-button selected*/
 
         var getJSON = function(dataurl) {
             $.ajax({
         url: dataurl,
         dataType: "json",
-        success: (function(dataJSON){
-         
-            
-            // for(var i =0; i < temp.responseJSON.features.length ; i ++){
-            //     resultOrg = '' + temp.responseJSON.features[i].properties.org;
-            //     resultSite= '' + temp.responseJSON.features[i].properties.site;
-            //     resultContact= '' + temp.responseJSON.features[i].properties.contact;
-            //     resultPhone= '' + temp.responseJSON.features[i].properties.p;
+        success: (function(data){
 
-            var data = dataJSON;
-            var str = ' <ul class="list-group">'
+            
+            var str = ' <ul class="list-group" >'
+
+                //Creating a list of elements and leaving fields blank if the value is null
+
             for(var i =0; i < data.features.length ; i ++){
                 if (data.features[i].properties.grouptype == 1) {
                     str += '<li class="list-group-item friends" style="display:block">'
                 } else {
                     str += '<li class="list-group-item regional" style="display:block">'
-                }
-                str += data.features[i].properties.org +'<br/> Site: ' + data.features[i].properties.site;
-                str += '<button class="btn btn-info" type="button" data-target = "#demo'+i+'" data-toggle="collapse">expand</button>';
+                }; 
+                
+                str += data.features[i].properties.org +'<br/> ';
+                (data.features[i].properties.site) ? str += 'Site: ' + data.features[i].properties.site : str += 'Site: ' ;
+                str += '<button class="btn btn-default btn-xs " type="button" data-target = "#demo'+i+'" data-toggle="collapse" style="float:right;"><i class="fas fa-chevron-down"></i></button>';
+
+                str += '<div class="collapse" id="demo'+i+'"> <br>';
+	            (data.features[i].properties.contact) ? str += '<strong>Contact:</strong> ' +data.features[i].properties.contact+' <br> ' :
+                str += '<strong>Contact:</strong>  <br> ';
+
+                (data.features[i].properties.p) ? str += '<strong><abbr title="Phone">P: </abbr></strong>: '+ data.features[i].properties.p+'<br> ':
+                str += '<strong><abbr title="Phone">P: </abbr></strong>: <br> ';
+
+                (data.features[i].properties.e) ? str += '<strong><abbr title="Email"> E</abbr>:</strong> <a href="mailto:'+ data.features[i].properties.e+' ">'+ data.features[i].properties.e+'</a>    <br>' :
+                str += '<strong><abbr title="Email"> E</abbr>:</strong> <a href="mailto:"></a>    <br>' ;
+
+                (data.features[i].properties.w) ? str += '<strong><abbr title="Website">W</abbr>:</strong> <a href="'+ data.features[i].properties.w+' " target="_blank" rel="external">'+ data.features[i].properties.w+'</a><br> ' : 
+                str += '<strong><abbr title="Website">W</abbr>:</strong> <a href="#" target="_blank" rel="external"></a><br> ' ;          
+                
+                (data.features[i].properties.f) ? str += '<strong><abbr title="Facebook">F</abbr>:</strong> <a href="'+ data.features[i].properties.f+' " target="_blank" rel="external">'+ data.features[i].properties.f+'</a><br>' : 
+                str += '<strong><abbr title="Facebook">F</abbr>:</strong> <a href="#" target="_blank" rel="external"></a><br>'; 
+
+                (data.features[i].properties.about) ? str += '<strong>About: </strong> '+ data.features[i].properties.about+'<br>' : 
+                str += '<strong>About: </strong> <br>';            
+	            str += '</div>';
                 str += '</li>';
-                
-	//str += '<i class="icon-angle-down"></i></button>';
-
-
-	str += '<div class="collapse" id="demo'+i+'"> <br>';
-	str += '<strong>Contact:</strong> ' +data.features[i].properties.contact+' <br> ';
-	str += '</div>';
-	str += '</li>';
-                
-           
+            
                 resultSite= '' + data.features[i].properties.site;
                 resultContact= '' + data.features[i].properties.contact;
                 resultPhone= '' + data.features[i].properties.p;
                 
-                
-                                    
-                //                 //     <div class = "collaspe" id = "demo" style = "height: 0px;">
-                //                 //     Contact : <br/>
-                //                 //     </div>
-                //                 // </li>
-               
-              
-                //console.log(result);
-            
-                
             }
-            resultlength = data.features.length;
-            $('#result-count').html('<p> '+ data.features.length+' results found </p>')
+            
             str += '</ul>';
-           
-            console.log(resultSite)
-            // console.log(alltypes)
-       
-                
-    
+            console.log(resultlength);
+
+       // Load the list to the HTML and put the 'all' radio button as default
+            
             $('#results_list').html(str);
             $('input#all').click();
-            // var ul = document.querySelector("ul");
-
-            // for (var j = 0; j < result.length; j++) {
-            // var resultlist = result[j];
-
-            // var listItem = document.createElement("li");
-            // listItem.textContent = resultlist;
-
-            // ul.appendChild(listItem);
-            
-            // }
 
         }),
         error: function (xhr) {
@@ -295,18 +350,11 @@
         }
         })
         }
+
+        function CheckNullReturnBlank(item) {
+    return item = (item == null) ? '' : item;
+}
         
-
-        //console.log(temp.responseJSON);
-
-        // $.when(temp).done(function(type){
-        //     var result = []
-        //     if(temp.responseJSON.features.properties === 2 )
-        //     for(var i =0; i < temp.responseJSON.totalFeatures ; i ++){
-        //         result += '' + temp.responseJSON.features.properties.org
-        //     }
-        //     return result
-        // })
     
         getJSON(dataurl);
 
